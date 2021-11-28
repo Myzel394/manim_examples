@@ -181,3 +181,23 @@ class CreateElectricFieldScene(Scene):
             )
         )
         self.wait()
+
+
+class MultiPendulumScene(SpaceScene):
+    """Shows the trace of a pendulum without it's bobs."""
+
+    def construct(self):
+        p = MultiPendulum(
+            RIGHT, LEFT, LEFT * 1.2, LEFT * 1.4, LEFT * 1.6, LEFT * 1.8, LEFT * 2,
+        )
+
+        self.add(p)
+        self.make_rigid_body(p.bobs)
+        p.start_swinging()
+        self.add(
+            TracedPath(
+                p.bobs[-1].get_center,
+                stroke_color=WHITE,
+            )
+        )
+        self.wait(40)
