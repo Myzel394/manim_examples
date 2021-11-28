@@ -1,4 +1,3 @@
-from pprint import pprint
 from typing import *
 
 from manim import *
@@ -116,5 +115,69 @@ class BarMagnetExample(Scene):
         bar1 = BarMagnet().rotate(PI / 2).shift(LEFT * 3.5)
         bar2 = BarMagnet().rotate(PI / 2 * -1).shift(RIGHT * 3.5)
 
-        self.add(BarMagneticField(bar1, bar2))
+        bar1.set_opacity(.3)
+        bar2.set_opacity(.3)
+        bar1.set_stroke(BLACK, width=0)
+        bar2.set_stroke(BLACK, width=0)
+
+        self.add(BarMagneticField(bar1, bar2, colors=[GRAY, RED_D, YELLOW, GREEN, BLUE]))
         self.add(bar1, bar2)
+
+
+class BarMagnetRotatingExample(Scene):
+    ROTATION_DURATION = .05
+
+    def construct(self):
+        old_bar = None
+        old_field = None
+
+        for rotation_amount in range(0, 101, 1):
+            bar = BarMagnet().rotate(2 * PI * rotation_amount / -100)
+            field = BarMagneticField(bar)
+
+            if old_bar:
+                self.play(
+                    ReplacementTransform(
+                        old_field,
+                        field,
+                        run_time=self.ROTATION_DURATION,
+                        rate_func=rate_functions.linear
+                    ),
+                    ReplacementTransform(
+                        old_bar,
+                        bar,
+                        run_time=self.ROTATION_DURATION,
+                        rate_func=rate_functions.linear
+                    ),
+                )
+            else:
+                self.add(field)
+                self.add(bar)
+
+            old_bar = bar
+            old_field = field
+
+
+class CreateElectricFieldScene(Scene):
+    def construct(self):
+        charge1 = Charge(-1, LEFT * 2)
+        charge2 = Charge(1, RIGHT * 2)
+        none_field = ElectricField(Charge(-1, UP * 5e10))
+        field = ElectricField(charge1, charge2)
+
+        self.play(
+            FadeIn(none_field)
+        )
+        self.wait()
+        # Show charge1 and charge2 simultaneously, delay the field change by 0.2 seconds
+        self.play(
+            AnimationGroup(
+                AnimationGroup(
+                    GrowFromCenter(charge1),
+                    GrowFromCenter(charge2),
+                ),
+                ReplacementTransform(none_field, field),
+                lag_ratio=.2
+            )
+        )
+        self.wait()
