@@ -1,26 +1,25 @@
 from manim import *
 from manim_physics import *
 
+DEFAULT_PADDING = .3
+DEFAULT_BAR_SIZE = 1
+
 
 class HorseShoeMagnet(VGroup):
     def __init__(
         self,
         width: float = 6,
         height: float = 6,
-        bar_width: Optional[float] = None,
-        bar_height: Optional[float] = None,
-        field_x_padding: Optional[float] = None,
-        field_y_padding: Optional[float] = None,
+        bar_width: float = DEFAULT_PADDING,
+        bar_height: float = DEFAULT_PADDING,
+        field_x_padding: float = DEFAULT_PADDING,
+        field_y_padding: float = DEFAULT_PADDING,
         field_density: float = 2,
         magnets: list[BarMagnet] = None,
         create_bar: bool = True,
         **kwargs
     ):
         magnets = magnets or []
-        field_x_padding = field_x_padding or .3
-        field_y_padding = field_y_padding or .3
-        bar_width = bar_width or 1
-        bar_height = bar_height or 1
 
         field_width = width - bar_width
         field_height = height - (bar_height * 2)
