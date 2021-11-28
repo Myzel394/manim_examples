@@ -226,3 +226,25 @@ class MultiPendulumScene(SpaceScene):
             )
         )
         self.wait(40)
+
+
+class FallingEquation(SpaceScene):
+    def construct(self):
+        equation = MathTex(
+            "{{U}} {{_{i}}{{n}}{{d}}} }} {{=}} {{-}}{{n}} "
+            "{{\cdot}} {{B}} {{\cdot}} {{v}} {{\cdot}} {{l}} _{{{e}}{{f}}{{f}}} }}",
+        )\
+            .shift(UP)
+        ground = Line([-4, -1.5, 0], [4, -1.5, 0])
+
+        self.add(equation, ground)
+        self.make_rigid_body(*equation.submobjects)
+        self.make_static_body(
+            ground,
+            # Ensures that characters don't fall through the ground
+            ground.copy().shift(DOWN * 0.01),
+            ground.copy().shift(DOWN * 0.03),
+            ground.copy().shift(DOWN * 0.05),
+            ground.copy().shift(DOWN * 0.07)
+        )
+        self.wait(10)
