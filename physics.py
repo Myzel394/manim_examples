@@ -129,10 +129,27 @@ class BarMagnetRotatingExample(Scene):
 
     def construct(self):
         old_bar = None
+        old_rect = None
         old_field = None
+        padding = .05
+        temp_bar = BarMagnet()
+        width = temp_bar.width + padding
+        height = temp_bar.height + padding
 
-        for rotation_amount in range(0, 101, 1):
-            bar = BarMagnet().rotate(2 * PI * rotation_amount / -100)
+        for rotation_percentage in range(0, 101, 1):
+            rotation_amount = 2 * PI * rotation_percentage / 100 * -1
+
+            bar = BarMagnet().rotate(rotation_amount)
+            rect = Rectangle(
+                width=width,
+                height=height,
+                fill_color=BLACK,
+                fill_opacity=1,
+                stroke_width=0,
+            )\
+                .scale(1.2)\
+                .next_to(bar, ORIGIN)\
+                .rotate(rotation_amount)
             field = BarMagneticField(bar)
 
             if old_bar:
@@ -140,6 +157,12 @@ class BarMagnetRotatingExample(Scene):
                     ReplacementTransform(
                         old_field,
                         field,
+                        run_time=self.ROTATION_DURATION,
+                        rate_func=rate_functions.linear
+                    ),
+                    ReplacementTransform(
+                        old_rect,
+                        rect,
                         run_time=self.ROTATION_DURATION,
                         rate_func=rate_functions.linear
                     ),
@@ -152,10 +175,12 @@ class BarMagnetRotatingExample(Scene):
                 )
             else:
                 self.add(field)
+                self.add(rect)
                 self.add(bar)
 
-            old_bar = bar
             old_field = field
+            old_rect = rect
+            old_bar = bar
 
 
 class CreateElectricFieldScene(Scene):
