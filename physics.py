@@ -136,7 +136,7 @@ class BarMagnetRotatingExample(Scene):
         width = temp_bar.width + padding
         height = temp_bar.height + padding
 
-        for rotation_percentage in range(0, 101, 1):
+        for rotation_percentage in range(0, 101, 2):
             rotation_amount = 2 * PI * rotation_percentage / 100 * -1
 
             bar = BarMagnet().rotate(rotation_amount)
@@ -213,7 +213,7 @@ class MultiPendulumScene(SpaceScene):
 
     def construct(self):
         p = MultiPendulum(
-            RIGHT, LEFT, LEFT * 1.2, LEFT * 1.4, LEFT * 1.6, LEFT * 1.8, LEFT * 2,
+            LEFT * .5, LEFT, LEFT * 2,
         )
 
         self.add(p)
@@ -222,7 +222,7 @@ class MultiPendulumScene(SpaceScene):
         self.add(
             TracedPath(
                 p.bobs[-1].get_center,
-                stroke_color=WHITE,
+                stroke_color=BLUE,
             )
         )
         self.wait(40)
