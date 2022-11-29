@@ -147,14 +147,23 @@ class ExplanationScene(Scene):
         self.play(
             AnimationGroup(
                 AnimationGroup(
-                    ApplyMethod(es_trieb_circle_3.shift, DOWN * 2.8),
-                    ReplacementTransform(es_line_2, es_line_3),
+                    AnimationGroup(
+                        AnimationGroup(
+                            ApplyMethod(es_trieb_circle_3.shift, DOWN * 2.8),
+                            ReplacementTransform(es_line_2, es_line_3),
+                        ),
+                        AnimationGroup(
+                            ApplyMethod(uber_circle_3.shift, UP * 2.8),
+                            ReplacementTransform(uber_line_2, uber_line_3),
+                        ),
+                        ScaleInPlace(vermittlung_black, 1),
+                    ),
+                    AnimationGroup(
+                        FadeToColor(vermittlung_text, color=PURPLE_C),
+                        FadeToColor(vermittlung_2, color=PURPLE_C),
+                    ),
+                    lag_ratio=.3
                 ),
-                AnimationGroup(
-                    ApplyMethod(uber_circle_3.shift, UP * 2.8),
-                    ReplacementTransform(uber_line_2, uber_line_3),
-                ),
-                ScaleInPlace(ver, 1)
             )
         )
 
